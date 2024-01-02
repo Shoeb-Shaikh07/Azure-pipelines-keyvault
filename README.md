@@ -20,18 +20,18 @@ az keyvault create --name $KEYVAULT_NAME \
 ```
 
 # On portal 
-# 1. Assign RBAC role to the current user to manage secrets 
-# 2. create a secret
-# 3. Create Service Principal to access Key Vault from Azure DevOps Pipelines
+### 1. Assign RBAC role to the current user to manage secrets 
+### 2. Create a secret
+### 3. Create Service Principal to access Key Vault from Azure DevOps Pipelines
 
 
-## 3) Create a pipeline to access Key Vault Secrets
+## Create a pipeline to access Key Vault Secrets
 
-### 3.1) Create Service Connection using the SPN
+### 0.1) Create a Service Connection using the SPN
 
 Create a service connection in Azure DevOps using the SPN created earlier.
 
-### 3.2) Create YAML pipeline
+### 0.2) Create YAML pipeline
 
 Create the following yaml pipeline to get access to the secrets.
 
