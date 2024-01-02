@@ -1,6 +1,6 @@
-﻿# Accessing Azure Key Vault Secrets using Azure DevOps Pipelines 
+# Accessing Azure Key Vault Secrets using Azure DevOps Pipelines 
 
-## 1) Create Azure Key Vault with Secrets and persmissions
+## 1) Create Azure Key Vault with Secrets and persmissions through portal or using below Az-cli commands/Scripts 
 
 The following script will create a Key Vault and Secret:
 
@@ -10,54 +10,22 @@ KEYVAULT_RG="rg-keyvault-devops"
 KEYVAULT_NAME="keyvault019"
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 
-# create new resource group
+# create new resource group from the portal or using below Az-cli command
 az group create -n rg-keyvault-devops -l westeurope
 
-# create key vault with RBAC option (not Access Policy)
+# create key vault with RBAC option (not Access Policy) 
 az keyvault create --name $KEYVAULT_NAME \
    --resource-group $KEYVAULT_RG \
    --enable-rbac-authorization
 ```
 
 ```bash
-# assign RBAC role to the current user to manage secrets
-USER_ID=$(az ad signed-in-user show --query objectId -o tsv)
 
-KEYVAULT_ID=$(az keyvault show --name $KEYVAULT_NAME \
-   --resource-group $KEYVAULT_RG \
-   --query id \
-   --output tsv)
+# On portal 
+# 1. Assign RBAC role to the current user to manage secrets 
+# 2. create a secret
+# 3. Create Service Principal to access Key Vault from Azure DevOps Pipelines
 
-az role assignment create --role "Key Vault Secrets Officer" \
-   --scope $KEYVAULT_ID \
-   --assignee-object-id $USER_ID
-``` 
-
-```bash
-# create a secret
-az keyvault secret set --name "DatabasePassword" \
-  --value "mySecretPassword" \
-  --vault-name $KEYVAULT_NAME
-```
-
-## 2) Create Service Principal to access Key Vault from Azure DevOps Pipelines
-
-```bash
-# create a service principal
-SPN=$(az ad sp create-for-rbac -n "spn-keyvault-devops")
-
-echo $SPN | jq .
-
-SPN_APPID=$(echo $SPN | jq .appId)
-
-SPN_ID=$(az ad sp list --display-name "spn-keyvault-devops" --query [0].objectId --out tsv)
-<!-- SPN_ID=$(az ad sp show --id $SPN_APPID --query objectId --out tsv) -->
-
-# assign RBAC role to the service principal
-az role assignment create --role "Key Vault Secrets User" \
-   --scope $KEYVAULT_ID \
-   --assignee-object-id $SPN_ID
-```
 
 ## 3) Create a pipeline to access Key Vault Secrets
 
@@ -101,6 +69,12 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Secrets File
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+```
+
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
