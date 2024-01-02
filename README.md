@@ -1,6 +1,6 @@
 # Accessing Azure Key Vault Secrets using Azure DevOps Pipelines 
 
-## 1) Create Azure Key Vault with Secrets and persmissions through portal or using below Az-cli commands/Scripts 
+## 1) Create Azure Key Vault with Secrets and permissions through portal or using the below Az-cli commands/Scripts 
 
 The following script will create a Key Vault and Secret:
 
