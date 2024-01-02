@@ -22,7 +22,7 @@ az keyvault create --name $KEYVAULT_NAME \
 # On portal 
 ### 1. Assign RBAC role to the current user to manage secrets 
 ### 2. Create a secret
-### 3. Create Service Principal to access Key Vault from Azure DevOps Pipelines
+### 3. Create a Service Principal to access Key Vault from Azure DevOps Pipelines
 
 
 ## Create a pipeline to access Key Vault Secrets
@@ -71,7 +71,6 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-```
 
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
