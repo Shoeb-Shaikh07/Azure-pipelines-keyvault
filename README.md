@@ -1,6 +1,6 @@
 # Accessing Azure Key Vault Secrets using Azure DevOps Pipelines 
 
-## 1) Create Azure Key Vault with Secrets and permissions through portal or using the below Az-cli commands/Scripts 
+## Create Azure Key Vault with Secrets and permissions through portal or using the below Az-cli commands/Scripts 
 
 The following script will create a Key Vault and Secret:
 
@@ -23,6 +23,7 @@ az keyvault create --name $KEYVAULT_NAME \
 ### 1. Assign RBAC role to the current user to manage secrets 
 ### 2. Create a secret
 ### 3. Create a Service Principal to access Key Vault from Azure DevOps Pipelines
+
 
 
 ## Create a pipeline to access Key Vault Secrets
@@ -67,11 +68,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Secrets File
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
