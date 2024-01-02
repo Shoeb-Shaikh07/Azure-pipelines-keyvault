@@ -19,8 +19,6 @@ az keyvault create --name $KEYVAULT_NAME \
    --enable-rbac-authorization
 ```
 
-```bash
-
 # On portal 
 # 1. Assign RBAC role to the current user to manage secrets 
 # 2. create a secret
