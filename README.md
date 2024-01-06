@@ -6,12 +6,12 @@ The following script will create a Key Vault and Secret:
 
 ```bash
 # create the variables
-KEYVAULT_RG="rg-keyvault-devops"
-KEYVAULT_NAME="keyvault019"
+KEYVAULT_RG="rg-keyvault"
+KEYVAULT_NAME="keyvault007"
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 
 # create new resource group from the portal or using below Az-cli command
-az group create -n rg-keyvault-devops -l westeurope
+az group create -n rg-keyvault -l southcentralus
 
 # create key vault with RBAC option (not Access Policy) 
 az keyvault create --name $KEYVAULT_NAME \
